@@ -1,5 +1,16 @@
 version: 2
 jobs:
+  docker-test1:
+    docker:
+      - image: circleci/python:3.7.4
+    steps:
+      - checkout
+      - run: docker-compose up -d
+  docker-test2:
+    machine: true
+    steps:
+      - checkout
+      - run: docker-compose up -d  
   one:
     docker:
       - image: circleci/ruby:2.4.1
@@ -29,6 +40,8 @@ workflows:
   version: 2
   one_and_two:
     jobs:
+      - docker-test1
+      - docker-test2
       - one
       - two:
           requires:
